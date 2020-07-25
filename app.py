@@ -3,7 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
-
+from auth import AuthError, requires_auth
 from models import setup_db, db, Movie, Actor
 
 DEFAULT_LIMIT = 10
@@ -36,14 +36,22 @@ def create_app(test_config=None):
                              'GET, POST, PATCH, DELETE')
         return response
 
+    #  ----------------------------------------------------------------
+    #  TEST
+    #  ----------------------------------------------------------------
     @app.route("/")
-    def get_greeting():
-        return jsonify({'message': 'Hello, World!'})
-
+    def hello():
+        
+        return jsonify({
+            'success': True,
+            'message': 'Hello World'
+        })
+    #  ----------------------------------------------------------------
     #  GET Movies
     #  ----------------------------------------------------------------
     @app.route("/movies")
-    def get_movies():
+    @requires_auth('get:movies')
+    def get_movies(payload):
         selection = Movie.query.order_by(Movie.id).all()
         current_movies = paginate_response(request, selection)
         
@@ -52,10 +60,12 @@ def create_app(test_config=None):
             'movies': current_movies
         })
 
+    #  ----------------------------------------------------------------
     #  GET Actors
     #  ----------------------------------------------------------------
     @app.route("/actors")
-    def get_actors():
+    @requires_auth('get:actors')
+    def get_actors(payload):
         selection = Actor.query.order_by(Actor.id).all()
         current_actors = paginate_response(request, selection)
 
@@ -64,10 +74,12 @@ def create_app(test_config=None):
             'actors': current_actors
         })
 
+    #  ----------------------------------------------------------------
     #  POST Movies
     #  ----------------------------------------------------------------
     @app.route('/movies', methods=['POST'])
-    def create_movie():
+    @requires_auth('post:movies')
+    def create_movie(payload):
         body = request.get_json()
         new_title = body.get('title', None)
         new_release_date = body.get('release_date', None)
@@ -86,10 +98,12 @@ def create_app(test_config=None):
             'total_movies': len(Movie.query.all())
         })
 
+    #  ----------------------------------------------------------------
     #  POST Actors
     #  ----------------------------------------------------------------
     @app.route('/actors', methods=['POST'])
-    def create_actor():
+    @requires_auth('post:actors')
+    def create_actor(payload):
         body = request.get_json()
         new_name = body.get('name', None)
         new_age = body.get('age', None)
@@ -109,11 +123,12 @@ def create_app(test_config=None):
             'actors': current_actors,
             'total_actors': len(Actor.query.all())
         })
-
+    #  ----------------------------------------------------------------
     #  PATCH Movies
     #  ----------------------------------------------------------------
     @app.route('/movies/<movie_id>', methods=['PATCH'])
-    def update_movie(movie_id):
+    @requires_auth('patch:movies')
+    def update_movie(payload, movie_id):
         # get drink by id
         movie = Movie.query.get(movie_id)
 
@@ -139,10 +154,12 @@ def create_app(test_config=None):
             'movies': [Movie.query.get(movie_id).format()]
         })
 
+    #  ----------------------------------------------------------------
     #  PATCH ACTORS
     #  ----------------------------------------------------------------
     @app.route('/actors/<actor_id>', methods=['PATCH'])
-    def update_actor(actor_id):
+    @requires_auth('patch:actors')
+    def update_actor(payload, actor_id):
         # get drink by id
         actor = Actor.query.get(actor_id)
 
@@ -170,45 +187,63 @@ def create_app(test_config=None):
             'actors': [Actor.query.get(actor_id).format()]
         })
 
+    #  ----------------------------------------------------------------
+    #  DELETE MOVIES
+    #  ----------------------------------------------------------------
     @app.route('/movies/<int:id>', methods=['DELETE'])
-    def delete_movie(id):
+    @requires_auth('delete:movies')
+    def delete_movie(payload, id):
         # get movie by id
-        movie = Movie.query.filter_by(id=id)
+        movie = Movie.query.filter_by(id=id).one_or_none()
 
-        # if drink not found
+        # if movie not found
         if movie is None:
             abort(404)
 
-        # Delete the movie
-        movie.delete()
+        try:
+            # delete movie from database
+            movie.delete()
+        except:
+            # server error
+            abort(500)
 
-        # return status and deleted drink id
+        # return status and deleted movie id
         return jsonify({
             'success': True,
             'delete': id
         })
 
+    #  ----------------------------------------------------------------
+    #  DELETE ACTORS
+    #  ----------------------------------------------------------------
     @app.route('/actors/<int:id>', methods=['DELETE'])
-    def delete_actor(id):
+    @requires_auth('delete:actors')
+    def delete_actor(payload, id):
         # get actor by id
-        actor = Actor.query.filter_by(id=id)
+        actor = Actor.query.filter_by(id=id).one_or_none()
 
-        # if drink not found
+        # if actor not found
         if actor is None:
             abort(404)
 
-        # Delete the movie
-        actor.delete()
+        try:
+            # delete actor from database
+            actor.delete()
+        except:
+            # server error
+            abort(500)
 
-        # return status and deleted drink id
+        # return status and deleted actor id
         return jsonify({
             'success': True,
             'delete': id
         })
+
         
     return app
 
 APP = create_app()
 
 if __name__ == '__main__':
-    APP.run(host='0.0.0.0', port=8080, debug=True)
+    APP.run(host='127.0.0.1', port=8080, debug=True)
+ 
