@@ -239,6 +239,56 @@ def create_app(test_config=None):
             'delete': id
         })
 
+    #  ----------------------------------------------------------------
+    #  ERROR HANDLERS
+    #  ----------------------------------------------------------------
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({
+            "success": False,
+            "error": 404,
+            "message": "resource not found"
+        }), 404
+
+    @app.errorhandler(401)
+    def unauthorized(error):
+        return jsonify({
+            "success": False,
+            "error": 401,
+            "message": "unauthorized"
+        }), 401
+
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({
+            "success": False,
+            "error": 422,
+            "message": "unprocessable"
+        }), 422
+
+    @app.errorhandler(400)
+    def bad_request(error):
+        return jsonify({
+            "success": False,
+            "error": 400,
+            "message": "bad request"
+        }), 400
+    @app.errorhandler(500)
+    def server_error(error):
+        return jsonify({
+            "success": False,
+            "error": 500,
+            "message": "server error"
+        }), 500
+
+    # AuthError exceptions raised by the @requires_auth(permission) decorator method
+    @app.errorhandler(AuthError)
+    def auth_error(auth_error):
+        return jsonify({
+        "success": False,
+        "error": auth_error.status_code,
+        "message": auth_error.error['description']
+        }), auth_error.status_code
         
     return app
 
