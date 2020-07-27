@@ -4,8 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 database_name = "casting_agency"
-# database_path = "postgres://{}/{}".format('localhost:5432', database_name)
-database_path = "postgres://onzhjaykmbcaaq:b091ed869ff58277d037e9dfec47bfa38ae4a4966c9721b71a5bb17b4c88b383@ec2-34-239-241-25.compute-1.amazonaws.com:5432/d9sfjd56pta0i"
+database_path = "postgres://{}/{}".format('localhost:5432', database_name)
+# database_path = "postgres://onzhjaykmbcaaq:b091ed869ff58277d037e9dfec47bfa38ae4a4966c9721b71a5bb17b4c88b383@ec2-34-239-241-25.compute-1.amazonaws.com:5432/d9sfjd56pta0i"
 
 db = SQLAlchemy()
 
