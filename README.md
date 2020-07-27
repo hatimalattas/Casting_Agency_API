@@ -235,3 +235,5 @@ dropdb casting_agency
 createdb casting_agency
 python test_app.py
 ```
+## Deployment
+This project is hosted at https://casting-agency1453.herokuapp.com/
