@@ -26,6 +26,13 @@ pip install -r requirements.txt
 This will install all of the required packages we selected within the `requirements.txt` file.
 
 
+After installing the dependencies, execute the bash file `setup.sh` to set the user jwts, auth0 credentials and the remote database url by naviging to the root directory of this project and running:
+
+```bash
+source setup.sh
+```
+
+
 ##### Key Dependencies
 
 - [Flask](http://flask.pocoo.org/)  is a lightweight backend microservices framework. Flask is required to handle requests and responses.
@@ -211,4 +218,20 @@ The API will return the following errors when requests fail:
   'success': True,
   'id': 1
 }
+```
+
+## Testing
+#### Running tests locally
+To run the tests from ./test_app.py, first make sure you have ran and executed the setup.sh file to set the enviorment.
+
+After setting the enviorment start your local postgress server:
+```bash
+pg_ctl -D /usr/local/var/postgres start
+```
+
+Then run the follwing commands to run the tests:
+```
+dropdb casting_agency
+createdb casting_agency
+python test_app.py
 ```
