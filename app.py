@@ -6,8 +6,9 @@ from flask_migrate import Migrate
 from auth import AuthError, requires_auth
 from models import setup_db, db, Movie, Actor
 
-DEFAULT_LIMIT = 10
+# app = Flask(__name__)
 
+DEFAULT_LIMIT = 10
 
 def paginate_response(request, selection):
     page = request.args.get('page', 1, type=int)
@@ -296,4 +297,3 @@ APP = create_app()
 
 if __name__ == '__main__':
     APP.run(host='0.0.0.0', port=8080, debug=True)
-    
