@@ -230,7 +230,7 @@ The API will return the following errors when requests fail:
 
 #### DELETE '/movies/<movie_id>'
 - Removes a movie from the database.
-- Request Parameters: question id slug.
+- Request Parameters: question id.
 - Returns: An object with `success: True` and the id of the deleted movie
 ```
 {
