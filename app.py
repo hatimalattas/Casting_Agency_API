@@ -89,13 +89,10 @@ def create_app(test_config=None):
                       release_date=new_release_date)
         movie.insert()
 
-        selection = Movie.query.order_by(Movie.id).all()
-        current_movies = paginate_response(request, selection)
-
         return jsonify({
             'success': True,
             'created': movie.id,
-            'movies': current_movies,
+            'movies': [Movie.query.get(movie.id).format()],
             'total_movies': len(Movie.query.all())
         })
 
@@ -115,13 +112,10 @@ def create_app(test_config=None):
                       gender=new_gender)
         actor.insert()
 
-        selection = Actor.query.order_by(Actor.id).all()
-        current_actors = paginate_response(request, selection)
-
         return jsonify({
             'success': True,
             'created': actor.id,
-            'actors': current_actors,
+            'actors': [Actor.query.get(actor.id).format()],
             'total_actors': len(Actor.query.all())
         })
     #  ----------------------------------------------------------------
@@ -152,7 +146,7 @@ def create_app(test_config=None):
         # Return the updated movie
         return jsonify({
             'success': True,
-            'movies': [Movie.query.get(movie_id).format()]
+            'movie': [Movie.query.get(movie_id).format()]
         })
 
     #  ----------------------------------------------------------------
@@ -185,7 +179,7 @@ def create_app(test_config=None):
         # Return the updated movie
         return jsonify({
             'success': True,
-            'actors': [Actor.query.get(actor_id).format()]
+            'actor': [Actor.query.get(actor_id).format()]
         })
 
     #  ----------------------------------------------------------------
