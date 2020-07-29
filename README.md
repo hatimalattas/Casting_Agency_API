@@ -1,4 +1,4 @@
-# Casting Agency Capstone
+# Casting Agency API
 
 The Casting Agency API models a company that is responsible for creating movies and managing and assigning actors to those movies.
 This api is responsible for checking permissions and handling CRUD for an Actor and Movie models
@@ -25,19 +25,13 @@ pip install -r requirements.txt
 
 This will install all of the required packages we selected within the `requirements.txt` file.
 
-
-After installing the dependencies, execute the bash file `setup.sh` to set the user jwts, auth0 credentials and the remote database url by naviging to the root directory of this project and running:
-
-```bash
-source setup.sh
-```
-
-
 ##### Key Dependencies
 
 - [Flask](http://flask.pocoo.org/)  is a lightweight backend microservices framework. Flask is required to handle requests and responses.
 
-- [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM we'll use handle the postgreSQL database. You'll primarily work in app.py and can reference models.py. 
+- [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM we'll use handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py. 
+
+- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension we'll use to handle cross origin requests from our frontend server. 
 
 - [jose](https://python-jose.readthedocs.io/en/latest/) JavaScript Object Signing and Encryption for JWTs. Useful for encoding, decoding, and verifying JWTS.
 
@@ -92,38 +86,70 @@ The API will return the following errors when requests fail:
 - 422: Not Processable 
 
 ### Endpoints 
+
+#### GET /
+
+```
+{
+    "message": "Hello World",
+    "success": true
+}
+```
+
 #### GET /movies
 - Fetches a paginated list of movies.
 - Returns: list of movies ordered by id.
+- Results are paginated in groups of 10.
 ```
 {
-  "movies": [
-    {
-      "id": 1,
-      "release_date": "Fri, 01 Oct 2021 04:22:00 GMT",
-      "title": "Avengers"
-    }
-  ],
-  "success": true
+    "movies": [
+        {
+            "id": 1,
+            "release_date": "Wed, 29 Jul 2020 21:06:33 GMT",
+            "title": "Inception"
+        },
+        {
+            "id": 2,
+            "release_date": "Wed, 29 Jul 2020 21:06:50 GMT",
+            "title": "The Dark Knight"
+        },
+        {
+            "id": 3,
+            "release_date": "Wed, 29 Jul 2020 21:07:14 GMT",
+            "title": "Joker"
+        }
+    ],
+    "success": true
 }
 ```
 
 #### GET '/actors'
 - Fetches a paginated list of actors.
-- Request Arguments: offset: 1(default), limit: 30(default).
 - Returns: list of actors ordered by id.
+- Results are paginated in groups of 10.
 ```
-
 {
-  'success': True,
-  'actors': [
-    {
-      id: 1,
-      name: 'Johny',
-      age: 30,
-      gender: 'male'
-    }
-  ]
+    "actors": [
+        {
+            "age": 23,
+            "gender": "Male",
+            "id": 1,
+            "name": "John"
+        },
+        {
+            "age": 40,
+            "gender": "Male",
+            "id": 2,
+            "name": "Mark"
+        },
+        {
+            "age": 33,
+            "gender": "Female",
+            "id": 3,
+            "name": "Jenny"
+        }
+    ],
+    "success": true
 }
 ```
 
@@ -133,14 +159,16 @@ The API will return the following errors when requests fail:
 - Returns: An object with `success: True` and the new movie inside an array.
 ```
 {
-  'success': True,
-  'movies': [
-    {
-      id: 2,
-      title: 'Toy Story 4',
-      release_date: '2022-10-1 04:22'
-    }
-  ]
+    "created": 5,
+    "movies": [
+        {
+            "id": 5,
+            "release_date": "Wed, 29 Jul 2020 21:30:42 GMT",
+            "title": "Die Hard 2"
+        }
+    ],
+    "success": true,
+    "total_movies": 5
 }
 ```
 
@@ -150,15 +178,17 @@ The API will return the following errors when requests fail:
 - Returns: An object with `success: True` and the new actor inside an array.
 ```
 {
-  'success': True,
-  'actors': [
-    {
-      id: 2,
-      name: 'John Travolta',
-      age: 28,
-      gender: 'Male'
-    }
-  ]
+    "actors": [
+        {
+            "age": 29,
+            "gender": "Male",
+            "id": 10,
+            "name": "Mark"
+        }
+    ],
+    "created": 10,
+    "success": true,
+    "total_actors": 5
 }
 ```
 
@@ -169,14 +199,14 @@ The API will return the following errors when requests fail:
 - Returns: An object with `success: True` and the updated movie inside an array.
 ```
 {
-  'success': True,
-  'movies': [
-    {
-      id: 1,
-      title: 'Toy Story 3',
-      release_date: '2030-10-1 04:22'
-    }
-  ]
+    "movie": [
+        {
+            "id": 4,
+            "release_date": "Wed, 29 Jul 2020 21:12:59 GMT",
+            "title": "Die Hard"
+        }
+    ],
+    "success": true
 }
 ```
 
@@ -186,15 +216,15 @@ The API will return the following errors when requests fail:
 - Returns: An object with `success: True` and the updated actor inside an array.
 ```
 {
-  'success': True,
-  'actors': [
-    {
-      id: 1,
-      name: 'Updated Actor',
-      age: 50,
-      gender: 'Male'
-    }
-  ]
+    "actor": [
+        {
+            "age": 29,
+            "gender": "Male",
+            "id": 4,
+            "name": "Jimmy"
+        }
+    ],
+    "success": true
 }
 ```
 
@@ -204,8 +234,8 @@ The API will return the following errors when requests fail:
 - Returns: An object with `success: True` and the id of the deleted movie
 ```
 {
-  'success': True,
-  'id': 1
+    "delete": 1,
+    "success": true
 }
 ```
 
@@ -215,8 +245,8 @@ The API will return the following errors when requests fail:
 - Returns: An object with `success: True` and the id of the deleted actor
 ```
 {
-  'success': True,
-  'id': 1
+    "delete": 1,
+    "success": true
 }
 ```
 
@@ -237,3 +267,7 @@ python test_app.py
 ```
 ## Deployment
 This project is hosted at https://casting-agency1453.herokuapp.com/
+
+
+## Authors
+Yours truly, Hatim Alattas
