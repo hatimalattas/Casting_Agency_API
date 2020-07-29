@@ -5,7 +5,7 @@ from datetime import datetime
 
 # database_name = "casting_agency"
 # database_path = "postgres://{}/{}".format('localhost:5432', database_name)
-os.environ['DATABASE_URL'] = "postgres://onzhjaykmbcaaq:b091ed869ff58277d037e9dfec47bfa38ae4a4966c9721b71a5bb17b4c88b383@ec2-34-239-241-25.compute-1.amazonaws.com:5432/d9sfjd56pta0i"
+os.environ['DATABASE_URL'] = "postgres://qkdyhktwczjbhw:07c68d601c0e032251d699ee76fd89061d677f7da82c049cde085b7e74fdf2dd@ec2-52-1-95-247.compute-1.amazonaws.com:5432/da4qa8tb6fp5lf"
 
 database_path = os.environ['DATABASE_URL']
 
