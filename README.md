@@ -53,6 +53,22 @@ Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` d
 
 ## API Reference
 
+### Role-based access control (RBAC)
+In computer systems security, role-based access control or role-based security is an approach to restricting system access to authorized users.
+
+In this project we have 3 types of users:
+#### Casting Assistant
+- Can view actors and movies
+
+#### Casting Director
+- All permissions a Casting Assistant has and…
+- Add or delete an actor from the database
+- Modify actors or movies
+
+#### Executive Producer
+- All permissions a Casting Director has and…
+- Add or delete a movie from the database
+
 ### Error Handling
 Errors are returned as JSON objects in the following format:
 ```
@@ -64,26 +80,12 @@ Errors are returned as JSON objects in the following format:
 ```
 The API will return the following errors when requests fail:
 - 400: Bad Request
-- 400: Permissions were not included in the JWT.
-- 400: Unable to parse authentication token.
-- 400: Unable to parse authentication token.
-- 400: Unable to find the appropriate key.
-
-- 401: Authorization header is expected.
-- 401: Authorization header must start with "Bearer".
-- 401: Token not found.
-- 401: Authorization header must be bearer token.
-- 401: Authorization malformed.
-- 401: Token expired.
-- 401: Incorrect claims. Please, check the audience and issuer.
-
-- 403: Permission denied.
-
-- 404: Resource Not Found.
-
-- 405: Method Not Allowed
-
+- 401: Anauthorized
+- 403: Forbidden
+- 404: Resource Not Found
+- 409: Duplicate Resource
 - 422: Not Processable 
+- 500: Server Error
 
 ### Endpoints 
 
