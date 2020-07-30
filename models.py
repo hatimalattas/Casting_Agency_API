@@ -5,7 +5,9 @@ from datetime import datetime
 
 # database_name = "casting_agency"
 # database_path = "postgres://{}/{}".format('localhost:5432', database_name)
-os.environ['DATABASE_URL'] = "postgres://qkdyhktwczjbhw:07c68d601c0e032251d699ee76fd89061d677f7da82c049cde085b7e74fdf2dd@ec2-52-1-95-247.compute-1.amazonaws.com:5432/da4qa8tb6fp5lf"
+os.environ['DATABASE_URL'] = "postgres://qkdyhktwczjbhw:07c68d601c0e032251d699ee76fd89061d67\
+    7f7da82c049cde085b7e74fdf2dd@ec2-52-1-95-247.compute-1.\
+        amazonaws.com:5432/da4qa8tb6fp5lf"
 
 database_path = os.environ['DATABASE_URL']
 
@@ -24,12 +26,13 @@ def setup_db(app, database_path=database_path):
     db.init_app(app)
     db.create_all()
 
+
 '''
 Movie Model
 '''
 
 
-class Movie(db.Model):  
+class Movie(db.Model):
     __tablename__ = 'movies'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -58,12 +61,13 @@ class Movie(db.Model):
             'release_date': self.release_date,
         }
 
+
 '''
 Actor Model
 '''
 
 
-class Actor(db.Model):  
+class Actor(db.Model):
     __tablename__ = 'actors'
 
     id = db.Column(db.Integer, primary_key=True)

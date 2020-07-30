@@ -27,7 +27,7 @@ class CastingAgencyTestCase(unittest.TestCase):
         with self.app.app_context():
             self.db = SQLAlchemy()
             self.db.init_app(self.app)
-            
+
             # create all tables
             self.db.drop_all()
             self.db.create_all()
@@ -36,34 +36,34 @@ class CastingAgencyTestCase(unittest.TestCase):
             'name': 'John Doe',
             'age': 20,
             'gender': 'Male'
-            }
+        }
 
         self.new_actor_2 = {
             'name': 'Nate',
             'age': 20,
             'gender': 'Male'
-            }
+        }
 
         self.update_actor = {
             'name': 'Claire',
             'age': 20,
             'gender': 'Female'
-            }
+        }
 
         self.new_movie = {
             'title': 'Avengers 2',
             'release_date': '2021-10-1 04:22'
-            }
+        }
 
         self.new_movie_2 = {
             'title': 'Avengers 4',
             'release_date': '2021-10-1 04:22'
-            }
+        }
 
         self.update_movie = {
             'title': 'Toy Story 12',
             'release_date': '2021-10-1 04:22'
-            }
+        }
 
     def tearDown(self):
         """Executed after reach test"""
@@ -72,9 +72,9 @@ class CastingAgencyTestCase(unittest.TestCase):
     #  ----------------------------------------------------------------
     #  Success behavior tests
     #  ----------------------------------------------------------------
-    
+
     def test_get_movies(self):
-        res = self.client().get('/movies', 
+        res = self.client().get('/movies',
                                 headers={"Authorization": (ASSISTANT_TOKEN)})
         data = json.loads(res.data)
 
@@ -82,7 +82,7 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
 
     def test_get_actors(self):
-        res = self.client().get('/actors', 
+        res = self.client().get('/actors',
                                 headers={"Authorization": (ASSISTANT_TOKEN)})
         data = json.loads(res.data)
 
@@ -90,7 +90,7 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
 
     def test_create_actors(self):
-        res = self.client().post('/actors', json=self.new_actor, 
+        res = self.client().post('/actors', json=self.new_actor,
                                  headers={"Authorization": (DIRECTOR_TOKEN)})
         data = json.loads(res.data)
 
@@ -106,9 +106,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertTrue(data['success'])
 
     def test_update_actors(self):
-        self.client().post('/actors', json=self.new_actor, 
+        self.client().post('/actors', json=self.new_actor,
                            headers={"Authorization": (PRODUCER_TOKEN)})
-        res = self.client().patch('/actors/1', json=self.update_actor, 
+        res = self.client().patch('/actors/1', json=self.update_actor,
                                   headers={"Authorization": (PRODUCER_TOKEN)})
         data = json.loads(res.data)
 
@@ -130,7 +130,7 @@ class CastingAgencyTestCase(unittest.TestCase):
                            headers={"Authorization": (PRODUCER_TOKEN)})
         self.client().post('/actors', json=self.new_actor_2,
                            headers={"Authorization": (PRODUCER_TOKEN)})
-        res = self.client().delete('/actors/2', 
+        res = self.client().delete('/actors/2',
                                    headers={"Authorization": (PRODUCER_TOKEN)})
         data = json.loads(res.data)
 
@@ -143,7 +143,7 @@ class CastingAgencyTestCase(unittest.TestCase):
                            headers={"Authorization": (PRODUCER_TOKEN)})
         self.client().post('/movies', json=self.new_movie_2,
                            headers={"Authorization": (PRODUCER_TOKEN)})
-        res = self.client().delete('/movies/2', 
+        res = self.client().delete('/movies/2',
                                    headers={"Authorization": (PRODUCER_TOKEN)})
         data = json.loads(res.data)
 
@@ -167,7 +167,7 @@ class CastingAgencyTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 401)
         self.assertEqual(data['success'], False)
-    
+
     def test_401_create_actors(self):
         res = self.client().post('/actors', json=self.new_actor)
         data = json.loads(res.data)
@@ -191,23 +191,23 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
 
     def test_404_update_movies(self):
-        res = self.client().patch('/movies/1000', json=self.update_movie, 
+        res = self.client().patch('/movies/1000', json=self.update_movie,
                                   headers={"Authorization": (PRODUCER_TOKEN)})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
         self.assertFalse(data['success'])
-    
+
     def test_404_delete_actors(self):
-        res = self.client().delete('/actors/1000', 
+        res = self.client().delete('/actors/1000',
                                    headers={"Authorization": (PRODUCER_TOKEN)})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
         self.assertFalse(data['success'])
-    
+
     def test_404_delete_movies(self):
-        res = self.client().delete('/movies/1000', 
+        res = self.client().delete('/movies/1000',
                                    headers={"Authorization": (PRODUCER_TOKEN)})
         data = json.loads(res.data)
 

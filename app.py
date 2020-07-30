@@ -31,7 +31,7 @@ def create_app(test_config=None):
 
     # set up CORS, allowing all origins
     CORS(app, resources={'/': {'origins': '*'}})
-    
+
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Headers',
@@ -43,9 +43,10 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  TEST
     #  ----------------------------------------------------------------
+
     @app.route("/")
     def hello():
-        
+
         return jsonify({
             'success': True,
             'message': 'Hello World'
@@ -53,13 +54,13 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  GET Movies
     #  ----------------------------------------------------------------
-    
+
     @app.route("/movies")
     @requires_auth('get:movies')
     def get_movies(payload):
         selection = Movie.query.order_by(Movie.id).all()
         current_movies = paginate_response(request, selection)
-        
+
         return jsonify({
             'success': True,
             'movies': current_movies,
@@ -127,7 +128,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  PATCH Movies
     #  ----------------------------------------------------------------
-    
+
     @app.route('/movies/<movie_id>', methods=['PATCH'])
     @requires_auth('patch:movies')
     def update_movie(payload, movie_id):
@@ -160,7 +161,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  PATCH ACTORS
     #  ----------------------------------------------------------------
-    
+
     @app.route('/actors/<actor_id>', methods=['PATCH'])
     @requires_auth('patch:actors')
     def update_actor(payload, actor_id):
@@ -195,7 +196,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  DELETE MOVIES
     #  ----------------------------------------------------------------
-    
+
     @app.route('/movies/<int:id>', methods=['DELETE'])
     @requires_auth('delete:movies')
     def delete_movie(payload, id):
@@ -223,7 +224,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  DELETE ACTORS
     #  ----------------------------------------------------------------
-    
+
     @app.route('/actors/<int:id>', methods=['DELETE'])
     @requires_auth('delete:actors')
     def delete_actor(payload, id):
@@ -251,7 +252,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  ERROR HANDLERS
     #  ----------------------------------------------------------------
-    
+
     @app.errorhandler(400)
     def bad_request(error):
         return jsonify({
@@ -318,8 +319,9 @@ def create_app(test_config=None):
             "error": auth_error.status_code,
             "message": auth_error.error['description']
         }), auth_error.status_code
-        
+
     return app
+
 
 APP = create_app()
 
