@@ -99,7 +99,8 @@ The API will return the following errors when requests fail:
 ```
 
 #### GET /movies
-Returns a paginated list of movies, a success value, and total number of movies
+Returns a paginated list of movies, a success value, and total number of movies.
+
 Sample curl: 
 curl -i -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" http://localhost:5000/movies.
 
@@ -129,7 +130,8 @@ Sample response output:
 ```
 
 #### GET '/actors'
-Returns a paginated list of actors, a success value, and total number of actors
+Returns a paginated list of actors, a success value, and total number of actors.
+
 Sample curl: 
 curl -i -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" http://localhost:5000/actors.
 
@@ -162,7 +164,8 @@ Sample response output:
 ```
 
 #### POST '/movies'
-Returns a list of the movie that was posted, the id of the movie that was posted, a success value, and total number of movies
+Returns a list of the movie that was posted, the id of the movie that was posted, a success value, and total number of movies.
+
 Sample curl: 
 curl http://localhost:5000/movies -X POST -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" -d '{"title":"Printer", "release_date": "Wed, 29 Jul 2020 21:30:42 GMT"}'.
 
@@ -183,7 +186,8 @@ Sample response output:
 ```
 
 #### POST '/actors'
-Returns a list of the actor that was posted, the id of the actor that was posted, a success value, and total number of actors
+Returns a list of the actor that was posted, the id of the actor that was posted, a success value, and total number of actors.
+
 Sample curl: 
 curl http://localhost:5000/actors -X POST -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" -d '{"name":"Mark", "gender": "Male", "age":29}'.
 
@@ -207,6 +211,7 @@ Sample response output:
 
 #### Patch '/movies/<movie_id>'
 Returns a list of the updated movie, a success value, and total number of movies.
+
 Sample curl:
 curl http://localhost:5000/movies/4 -X POST -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" -d '{"title":"Die Hard"}'.
 
@@ -227,6 +232,7 @@ Sample response output:
 
 #### Patch '/actors/<actor_id>'
 Returns a list of the updated actor, a success value, and total number of actors.
+
 Sample curl:
 curl http://localhost:5000/actors/4 -X POST -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" -d '{"name":"Jimmy"}'.
 
@@ -248,6 +254,8 @@ Sample response output:
 
 #### DELETE '/movies/<movie_id>'
 Returns the id of the deleted movie, a success value, and total number of movies.
+
+Sample curl:
 curl http://localhost:5000/movies/1 -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}".
 
 Sample response output:
@@ -261,6 +269,8 @@ Sample response output:
 
 #### DELETE '/actors/<actor_id>'
 Returns the id of the deleted actor, a success value, and total number of actors.
+
+Sample curl:
 curl http://localhost:5000/actors/1 -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}".
 
 Sample response output:
