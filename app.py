@@ -62,7 +62,8 @@ def create_app(test_config=None):
         
         return jsonify({
             'success': True,
-            'movies': current_movies
+            'movies': current_movies,
+            'total_movies': len(Movie.query.all())
         })
 
     #  ----------------------------------------------------------------
@@ -76,7 +77,8 @@ def create_app(test_config=None):
 
         return jsonify({
             'success': True,
-            'actors': current_actors
+            'actors': current_actors,
+            'total_actors': len(Actor.query.all())
         })
 
     #  ----------------------------------------------------------------
@@ -96,7 +98,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'created': movie.id,
-            'movies': [Movie.query.get(movie.id).format()],
+            'movie': [Movie.query.get(movie.id).format()],
             'total_movies': len(Movie.query.all())
         })
 
@@ -119,7 +121,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'created': actor.id,
-            'actors': [Actor.query.get(actor.id).format()],
+            'actor': [Actor.query.get(actor.id).format()],
             'total_actors': len(Actor.query.all())
         })
     #  ----------------------------------------------------------------
@@ -151,7 +153,8 @@ def create_app(test_config=None):
         # Return the updated movie
         return jsonify({
             'success': True,
-            'movie': [Movie.query.get(movie_id).format()]
+            'movie': [Movie.query.get(movie_id).format()],
+            'total_movies': len(Movie.query.all())
         })
 
     #  ----------------------------------------------------------------
@@ -185,7 +188,8 @@ def create_app(test_config=None):
         # Return the updated movie
         return jsonify({
             'success': True,
-            'actor': [Actor.query.get(actor_id).format()]
+            'actor': [Actor.query.get(actor_id).format()],
+            'total_actors': len(Actor.query.all())
         })
 
     #  ----------------------------------------------------------------
@@ -212,7 +216,8 @@ def create_app(test_config=None):
         # return status and deleted movie id
         return jsonify({
             'success': True,
-            'delete': id
+            'delete': id,
+            'total_movies': len(Movie.query.all())
         })
 
     #  ----------------------------------------------------------------
@@ -239,7 +244,8 @@ def create_app(test_config=None):
         # return status and deleted actor id
         return jsonify({
             'success': True,
-            'delete': id
+            'delete': id,
+            'total_actors': len(Actor.query.all())
         })
 
     #  ----------------------------------------------------------------

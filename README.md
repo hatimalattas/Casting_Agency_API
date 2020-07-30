@@ -99,9 +99,10 @@ The API will return the following errors when requests fail:
 ```
 
 #### GET /movies
-- Fetches a paginated list of movies.
-- Returns: list of movies ordered by id.
-- Results are paginated in groups of 10.
+Returns a paginated list of movies and a success value
+Sample curl: 
+curl -i -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" http://localhost:5000/movies
+Sample response output:
 ```
 {
     "movies": [
@@ -126,9 +127,10 @@ The API will return the following errors when requests fail:
 ```
 
 #### GET '/actors'
-- Fetches a paginated list of actors.
-- Returns: list of actors ordered by id.
-- Results are paginated in groups of 10.
+Returns a paginated list of actors and a success value
+Sample curl: 
+curl -i -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" http://localhost:5000/actors
+Sample response output:
 ```
 {
     "actors": [
