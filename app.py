@@ -10,6 +10,7 @@ from models import setup_db, db, Movie, Actor
 
 DEFAULT_LIMIT = 10
 
+
 def paginate_response(request, selection):
     page = request.args.get('page', 1, type=int)
     start = (page - 1) * DEFAULT_LIMIT
@@ -20,6 +21,7 @@ def paginate_response(request, selection):
 
     return paginated_selection
 
+
 def create_app(test_config=None):
 
     # create and configure the app
@@ -29,6 +31,7 @@ def create_app(test_config=None):
 
     # set up CORS, allowing all origins
     CORS(app, resources={'/': {'origins': '*'}})
+    
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Headers',
@@ -50,6 +53,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  GET Movies
     #  ----------------------------------------------------------------
+    
     @app.route("/movies")
     @requires_auth('get:movies')
     def get_movies(payload):
@@ -121,6 +125,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  PATCH Movies
     #  ----------------------------------------------------------------
+    
     @app.route('/movies/<movie_id>', methods=['PATCH'])
     @requires_auth('patch:movies')
     def update_movie(payload, movie_id):
@@ -152,6 +157,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  PATCH ACTORS
     #  ----------------------------------------------------------------
+    
     @app.route('/actors/<actor_id>', methods=['PATCH'])
     @requires_auth('patch:actors')
     def update_actor(payload, actor_id):
@@ -185,6 +191,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  DELETE MOVIES
     #  ----------------------------------------------------------------
+    
     @app.route('/movies/<int:id>', methods=['DELETE'])
     @requires_auth('delete:movies')
     def delete_movie(payload, id):
@@ -211,6 +218,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  DELETE ACTORS
     #  ----------------------------------------------------------------
+    
     @app.route('/actors/<int:id>', methods=['DELETE'])
     @requires_auth('delete:actors')
     def delete_actor(payload, id):
@@ -237,6 +245,7 @@ def create_app(test_config=None):
     #  ----------------------------------------------------------------
     #  ERROR HANDLERS
     #  ----------------------------------------------------------------
+    
     @app.errorhandler(400)
     def bad_request(error):
         return jsonify({
@@ -285,7 +294,6 @@ def create_app(test_config=None):
             "message": "unprocessable"
         }), 422
 
-
     @app.errorhandler(500)
     def server_error(error):
         return jsonify({
@@ -293,14 +301,16 @@ def create_app(test_config=None):
             "error": 500,
             "message": "server error"
         }), 500
-
-    # AuthError exceptions raised by the @requires_auth(permission) decorator method
+    '''
+    AuthError exceptions raised by the @requires_auth(permission)
+    decorator method
+    '''
     @app.errorhandler(AuthError)
     def auth_error(auth_error):
         return jsonify({
-        "success": False,
-        "error": auth_error.status_code,
-        "message": auth_error.error['description']
+            "success": False,
+            "error": auth_error.status_code,
+            "message": auth_error.error['description']
         }), auth_error.status_code
         
     return app
