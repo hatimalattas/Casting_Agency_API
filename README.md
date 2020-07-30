@@ -99,7 +99,7 @@ The API will return the following errors when requests fail:
 ```
 
 #### GET /movies
-Returns a paginated list of movies and a success value
+Returns a paginated list of movies, a success value, and total number of movies
 Sample curl: 
 curl -i -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" http://localhost:5000/movies
 Sample response output:
@@ -122,12 +122,13 @@ Sample response output:
             "title": "Joker"
         }
     ],
-    "success": true
+    "success": true,
+    "total_movies": 3
 }
 ```
 
 #### GET '/actors'
-Returns a paginated list of actors and a success value
+Returns a paginated list of actors, a success value, and total number of actors
 Sample curl: 
 curl -i -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" http://localhost:5000/actors
 Sample response output:
@@ -153,14 +154,16 @@ Sample response output:
             "name": "Jenny"
         }
     ],
-    "success": true
+    "success": true,
+    "total_actors": 3
 }
 ```
 
 #### POST '/movies'
-- Create a new movie.
-- Request Arguments: { title: String, release_date: DateTime }.
-- Returns: An object with `success: True` and the new movie inside an array.
+Returns a list of the movie that was posted, the id of the movie that was posted, a success value, and total number of movies
+Sample curl: 
+curl http://localhost:5000/movies -X POST -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" -d '{"title":"Printer", "release_date": "Wed, 29 Jul 2020 21:30:42 GMT"}'
+Sample response output:
 ```
 {
     "created": 5,
@@ -177,9 +180,10 @@ Sample response output:
 ```
 
 #### POST '/actors'
-- Create a new actor.
-- Request Arguments: { name: String, age: Integer, gender: String }.
-- Returns: An object with `success: True` and the new actor inside an array.
+Returns a list of the actor that was posted, the id of the actor that was posted, a success value, and total number of actors
+Sample curl: 
+curl http://localhost:5000/actors -X POST -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" -d '{"name":"Mark", "gender": "Male", "age":29}'
+Sample response output:
 ```
 {
     "actors": [
@@ -198,9 +202,10 @@ Sample response output:
 
 
 #### Patch '/movies/<movie_id>'
-- Update a movie.
-- Request Arguments: { title: String, release_date: DateTime }.
-- Returns: An object with `success: True` and the updated movie inside an array.
+Returns a list of the updated movie, a success value, and total number of movies.
+Sample curl:
+curl http://localhost:5000/movies/4 -X POST -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" -d '{"title":"Die Hard"}'
+Sample response output:
 ```
 {
     "movie": [
@@ -210,14 +215,16 @@ Sample response output:
             "title": "Die Hard"
         }
     ],
-    "success": true
+    "success": true,
+    "total_movies": 5
 }
 ```
 
 #### Patch '/actors/<actor_id>'
-- Update an actor.
-- Request Arguments: { name: String, age: Integer, gender: String }.
-- Returns: An object with `success: True` and the updated actor inside an array.
+Returns a list of the updated actor, a success value, and total number of actors.
+Sample curl:
+curl http://localhost:5000/actors/4 -X POST -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" -d '{"name":"Jimmy"}'
+Sample response output:
 ```
 {
     "actor": [
@@ -228,29 +235,30 @@ Sample response output:
             "name": "Jimmy"
         }
     ],
-    "success": true
+    "success": true,
+    "total_actors": 4
 }
 ```
 
 #### DELETE '/movies/<movie_id>'
-- Removes a movie from the database.
-- Request Parameters: question id.
-- Returns: An object with `success: True` and the id of the deleted movie
+Returns the id of the deleted movie, a success value, and total number of movies.
+curl http://localhost:5000/movies/1 -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}"
 ```
 {
     "delete": 1,
-    "success": true
+    "success": true,
+    "total_movies": 3
 }
 ```
 
 #### DELETE '/actors/<actor_id>'
-- Removes an actor from the database.
-- Request Parameters: question id slug.
-- Returns: An object with `success: True` and the id of the deleted actor
+Returns the id of the deleted actor, a success value, and total number of actors.
+curl http://localhost:5000/actors/1 -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}"
 ```
 {
     "delete": 1,
-    "success": true
+    "success": true,
+    "total_actors": 3
 }
 ```
 
