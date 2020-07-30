@@ -167,7 +167,7 @@ Sample response output:
 Returns a list of the movie that was posted, the id of the movie that was posted, a success value, and total number of movies.
 
 Sample curl: 
-curl http://localhost:5000/movies -X POST -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" -d '{"title":"Printer", "release_date": "Wed, 29 Jul 2020 21:30:42 GMT"}'.
+curl http://localhost:5000/movies -X POST -H "Content-Type: application/json" -H "Authorization: Bearer {INSERT_TOKEN_HERE}" -d '{"title":"Die Hard 2", "release_date": "Wed, 29 Jul 2020 21:30:42 GMT"}'.
 
 Sample response output:
 ```
